@@ -1,7 +1,7 @@
 """This module contains the Task Manager Class."""
 
 import os
-from task import task
+from task import Task
 
 __author__ = "Jheyrus Ilagan"
 __version__ = "05.19.2025"
@@ -22,10 +22,22 @@ class TaskManager:
         self.view_tasks()
 
     def view_tasks(self):
-            """Views the list of tasks from the specified file."""
-            
-            for i, task in enumerate(self.tasks, 1):
-                 print(f"{task}")
+        """Views the list of tasks from the specified file."""
+        
+        for i, task in enumerate(self.tasks, 1):
+            print(f"{task}")
+
+    def add_tasks(self):
+         """Adds tasks to the task list."""
+         
+         task_name = input("Enter the name of your task: ")
+         task_description = input("Brief description of your task: ")
+         due_date = input("Enter the due date (DD-MM-YYYY): ")
+         priority_level = input("Determine the priority level of your task: ")
+
+         user_task = Task(task_name, task_description, due_date, priority_level)
+         self.tasks.append(user_task)
+
 
     def start_menu(self) -> str:
          """The start menu the user is greeted upon after initiating 
