@@ -1,6 +1,7 @@
 """This module contains the Task Manager Class."""
 
 import os
+import json
 from task import Task
 
 __author__ = "Jheyrus Ilagan"
@@ -19,15 +20,25 @@ class TaskManager:
 
         self.filename = filename
         self.tasks = []
-        self.view_tasks()
+        self.view_task()
 
-    def view_tasks(self):
+    def view_task(self) -> None:
         """Views the list of tasks from the specified file."""
         
         for i, task in enumerate(self.tasks, 1):
             print(f"{task}")
 
-    def add_tasks(self):
+    def load_task(self) -> None:
+        """Loads the existing tasks if an external file is present."""
+
+        if os.path.exists(self.filename):
+            with open("task-list.json", "r") as file:
+                file_data = json.load(file)
+
+        else:
+            self.tasks = []
+    
+    def add_task(self) -> None:
          """Adds tasks to the task list."""
          
          task_name = input("Enter the name of your task: ")
@@ -38,6 +49,11 @@ class TaskManager:
          user_task = Task(task_name, task_description, due_date, priority_level)
          self.tasks.append(user_task)
 
+    def update_task(self) -> None:
+        """Updates the selected task from existing task list."""
+
+        self.view_task()
+        task_selected = input("Enter the task # you would like to update: ")
 
     def start_menu(self) -> str:
          """The start menu the user is greeted upon after initiating 

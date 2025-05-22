@@ -37,3 +37,20 @@ class Task:
             status = "Completed"
 
         return f"{status} {self.task_name} ({self.priority} - {self.date_due})"
+    
+    def task_to_dict(self) -> str:
+        """Converts a task object into a dictionary to be utilized 
+        writing and saving to a file."""
+
+        return {
+            "Name": self.task_name,
+            "Description": self.task_description,
+            "Due Date": self.date_due,
+            "Priority Level": self.priority,
+            "Status": self.status
+        }
+    
+    def dict_to_task() -> str:
+        """Utilizes a dictionary from a file and creates a task object.
+        """
+        pass
