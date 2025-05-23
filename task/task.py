@@ -29,7 +29,16 @@ class Task:
 
     def __str__(self) -> str:
         """Returns the informal string representation of a Task in the 
-        personal Task Manager."""
+        personal Task Manager.
+        
+        Returns:
+            str: The informal string representation of a Task in the
+        personal Task Manager.
+        
+        Example:
+            >>> str(Task)
+            Incomplete Assignment 1 (Medium - 24-01-22025)
+        """
 
         if self.status:
             status = "Incomplete"
@@ -38,9 +47,13 @@ class Task:
 
         return f"{status} {self.task_name} ({self.priority} - {self.date_due})"
     
-    def task_to_dict(self) -> str:
+    def task_to_dict(self) -> dict:
         """Converts a task object into a dictionary to be utilized 
-        writing and saving to a file."""
+        writing and saving to a file.
+        
+        Returns:
+            dict: A dictionary containing the task object.
+        """
 
         return {
             "Name": self.task_name,
@@ -50,7 +63,21 @@ class Task:
             "Status": self.status
         }
     
-    def dict_to_task() -> str:
+    @classmethod
+    def dict_to_task(cls, task_dictionary: dict) -> str:
         """Utilizes a dictionary from a file and creates a task object.
+        
+        Args:
+            task_dictionary (dict): A dictionary that contains the task
+            object data.
+        
+        Return:
+            str: A task object created from the dictionary.
         """
-        pass
+
+        return cls(name = task_dictionary.get("Name", "Untitled Task"),
+                   description = task_dictionary.get("Description", ""),
+                   date_due = task_dictionary.get("Due Date", ""),
+                   priority = task_dictionary.get("Priority", "Medium"),
+                   status = task_dictionary.get("Status", "Incomplete"))
+    
