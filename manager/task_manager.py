@@ -55,6 +55,21 @@ class TaskManager:
         self.view_task()
         task_selected = input("Enter the task # you would like to update: ")
 
+    def delete_task(self):
+        """Deletes a task from the task list."""
+
+        # if not self.tasks():
+        #     print("There are no tasks to delete.")
+        # else:  
+        self.view_task()
+        border = "=" * 40
+        completed_tasks = "1. Completed Tasks"
+        singular_task = "2. Single Task From List"
+        all_tasks = "3. All tasks"
+        category_selection = input(f"{border}\n\n{completed_tasks}\n{singular_task}"
+                                   f"\n{all_tasks}\n\n{border}\nSelect a category for" 
+                                   f" deleting a task: ")
+
     def start_menu(self) -> str:
          """The start menu the user is greeted upon after initiating 
          the program.
@@ -67,8 +82,8 @@ class TaskManager:
          delete_task = "4. Delete Task"
          exit_system = "5. Exit"
 
-         print(f"{border}\n{start_message:^40}\n\n{view_task}\n{add_task}\n{update_task}\n"
-               f"{delete_task}\n{exit_system}\n{border}")
+         print(f"{border}\n{start_message:^40}\n\n{view_task}\n{add_task}\n"
+               f"{update_task}\n{delete_task}\n{exit_system}\n{border}")
          
          return input("Select an option (1-5): ")
          
