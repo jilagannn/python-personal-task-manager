@@ -58,17 +58,19 @@ class TaskManager:
     def delete_task(self):
         """Deletes a task from the task list."""
 
-        # if not self.tasks():
-        #     print("There are no tasks to delete.")
-        # else:  
-        self.view_task()
-        border = "=" * 40
-        completed_tasks = "1. Completed Tasks"
-        singular_task = "2. Single Task From List"
-        all_tasks = "3. All tasks"
-        category_selection = input(f"{border}\n\n{completed_tasks}\n{singular_task}"
-                                   f"\n{all_tasks}\n\n{border}\nSelect a category for" 
-                                   f" deleting a task: ")
+        if not self.tasks():
+            print("There are no tasks to delete.")
+        else:  
+            self.view_task()
+            border = "=" * 40
+            completed_tasks = "1. Completed Tasks"
+            singular_task = "2. Single Task From List"
+            all_tasks = "3. All tasks"
+            category_selection = int(input(f"{border}\n\n{completed_tasks}\n"
+                                           f"{singular_task}\n{all_tasks}\n\n"
+                                           f"{border}\nSelect a category by " 
+                                           f"inputting the corresponding "
+                                           f"number: "))
 
     def start_menu(self) -> str:
          """The start menu the user is greeted upon after initiating 
