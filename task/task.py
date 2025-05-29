@@ -4,31 +4,32 @@ __author__ = "Jheyrus Ilagan"
 __version__ = "05.19.2025"
 
 class Task:
-    """Class representing a Task from the personal task manager."""
-
-    def __init__(self, task_name, task_description, date_due, priority="Medium",
-                 status="Incomplete"):
+    """Class representing a Task in the personal task manager."""
+    
+    def __init__(self, task_name, task_description="", date_due=None, priority="Medium", 
+                 completed=False):
         """Initializes a new task instance.
         
         Args:
             task_name (str): The name of specified the task.
-            task_description (str): The description of the specified 
-            task.
-            date_due (str): The deadline date for the specified task.
-            priority (str): The priority level of the specified task. 
-            The default value is set to "Medium" priority.
-            status (str): The overall progress of the specified task. 
-            The default value is set to "Incomplete" progress.
+            task_description (str, optional): The description of the specified 
+        task. The default value is set to blank.
+            date_due (str, optional): The deadline date for the specified task. 
+        The default value is set
+            priority (str, optional): The priority level of the specified task. 
+        The default value is set to "Medium" priority.
+            completed (bool, optional): The overall progress of the specified task. 
+        The default value is set to "False" progress.
         """
 
         self.task_name = task_name
         self.task_description = task_description
         self.date_due = date_due
         self.priority = priority
-        self.status = status
-
+        self.completed = completed
+    
     def __str__(self) -> str:
-        """Returns the informal string representation of a Task in the 
+        """"Returns the informal string representation of a Task in the 
         personal Task Manager.
         
         Returns:
@@ -37,15 +38,17 @@ class Task:
         
         Example:
             >>> str(Task)
-            Incomplete Assignment 1 (Medium - 24-01-22025)
-        """
-
-        if self.status:
-            status = "Incomplete"
+            Incomplete Assignment 1 (Medium - 24-1-2025)"""
+        
+        if self.completed:
+            status = "Completed" 
         else:
-            status = "Completed"
-
-        return f"{status} {self.task_name} ({self.priority} - {self.date_due})"
+            status = "Incomplete"
+        if self.date_due:
+            due = f"Due: {self.date_due}" 
+        else:
+            due = "No due date"
+        return f"{status} {self.task_name} ({self.priority}) - {due}"
     
     def task_to_dict(self) -> dict:
         """Converts a task object into a dictionary to be utilized 
@@ -60,24 +63,22 @@ class Task:
             "Description": self.task_description,
             "Due Date": self.date_due,
             "Priority Level": self.priority,
-            "Status": self.status
+            "Status": self.completed
         }
     
     @classmethod
-    def dict_to_task(cls, task_dictionary: dict) -> str:
+    def dict_to_task(cls, task_dictionary):
         """Utilizes a dictionary from a file and creates a task object.
         
         Args:
             task_dictionary (dict): A dictionary that contains the task
-            object data.
+        object data.
         
-        Return:
-            str: A task object created from the dictionary.
+        Returns:
+            Task: A task object created from the dictionary.
         """
-
-        return cls(name = task_dictionary.get("Name", "Untitled Task"),
-                   description = task_dictionary.get("Description", ""),
-                   date_due = task_dictionary.get("Due Date", ""),
-                   priority = task_dictionary.get("Priority", "Medium"),
-                   status = task_dictionary.get("Status", "Incomplete"))
-    
+        return cls(task_name=task_dictionary.get("task_name", "Untitled"),
+                   task_description=task_dictionary.get("task_description", ""),
+                   date_due=task_dictionary.get("date_due", ""),
+                   priority=task_dictionary.get("priority", "Medium"),
+                   completed=task_dictionary.get("completed", False))
