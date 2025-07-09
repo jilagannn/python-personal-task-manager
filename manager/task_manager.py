@@ -66,8 +66,48 @@ class TaskManager:
     def update_task(self) -> None:
         """Updates the selected task from existing task list."""
 
-        self.view_task()
-        task_selected = input("Enter the task # you would like to update: ")
+        if self.tasks:
+            user_input = int(input("Enter the task " \
+            "# you would like to update: "))
+            task_list = user_input - 1
+            desired_task = self.tasks[task_list]
+            print (desired_task)
+            menu_selection = ""
+            while menu_selection != 6:
+                menu_selection = int(input("Which field of the task "  
+                                   "did you want to update?\n1. Name\n"
+                                   "2. Description\n3. Due Date\n"
+                                   "4. Priority Level\n5. Status\n6. Exit"))
+                if menu_selection == 1:
+                    updated_name = input("Enter the desired task name:")
+                    desired_task.task_name = updated_name
+                elif menu_selection == 2:
+                    updated_description = input("Enter the new description for your " \
+                    "task:")
+                    desired_task.task_description = updated_description
+                elif menu_selection == 3:
+                    updated_due_date = input("Enter the new due date for your task "
+                    "in the following format DD-MM-YYYY:")
+                    desired_task.date_due = updated_due_date
+                elif menu_selection == 4:
+                    updated_priority_level = input("Determine the new priority level" \
+                    "for your task:")
+                    desired_task.priority = updated_priority_level
+                elif menu_selection == 5:
+                    updated_status = input("Is your task completed? " \
+                    "Enter y/n:").lower()
+                    if updated_status == "y":
+                        updated_status = True
+                    else:
+                        updated_status = False
+                    desired_task.completed = updated_status
+                
+            else:
+                self.save_task()
+                print("Exiting task update menu.")
+        
+        else:
+            print("No tasks to update. Please add a task first!")
 
     def delete_task(self):
         """Deletes a task from the task list."""
