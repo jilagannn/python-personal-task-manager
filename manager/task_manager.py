@@ -2,7 +2,7 @@
 
 import os
 import json
-from task import Task
+from task.task import Task
 
 __author__ = "Jheyrus Ilagan"
 __version__ = "05.19.2025"
@@ -32,11 +32,25 @@ class TaskManager:
         """Loads the existing tasks if an external file is present."""
 
         if os.path.exists(self.filename):
-            with open("task-list.json", "r") as file:
+            with open(self.filename, "r") as file:
                 file_data = json.load(file)
+                for data in file_data:
+                    task = Task.dict_to_task(data)
+                    self.tasks.append(task)
 
         else:
             self.tasks = []
+
+    def save_task(self) -> None:
+        "Saves current task into a dictionary onto an external file."
+
+        with open(self.filename, "w") as file:
+            saved_data = []
+            for task_object in self.tasks:
+                task_dictionary = task_object.task_to_dict()
+                saved_data.append(task_dictionary)
+            json.dump(saved_data, file)
+
     
     def add_task(self) -> None:
          """Adds tasks to the task list."""
@@ -58,7 +72,7 @@ class TaskManager:
     def delete_task(self):
         """Deletes a task from the task list."""
 
-        if not self.tasks():
+        if not self.tasks:
             print("There are no tasks to delete.")
         else:  
             self.view_task()
