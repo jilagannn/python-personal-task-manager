@@ -9,7 +9,20 @@ __version__ = "05.20.2025"
 def main():
     """The main method for running the Personal Task Manager."""
     task_manager = TaskManager()
-    task_manager.start_menu()
+    selected_choice = ""
+    while selected_choice != "5":
+        selected_choice = task_manager.start_menu()
+        if selected_choice == "1":
+            task_manager.view_task()
+        elif selected_choice == "2":
+            task_manager.add_task()
+        elif selected_choice == "3":
+            task_manager.update_task()
+        elif selected_choice == "4":
+            task_manager.delete_task()
+        else:
+            print("Enter a valid option.")
+    print("Exiting program.")
 
 if __name__ == "__main__":
     main()
