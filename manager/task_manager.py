@@ -20,13 +20,17 @@ class TaskManager:
 
         self.filename = filename
         self.tasks = []
-        self.view_task()
+        self.load_task()
 
     def view_task(self) -> None:
         """Views the list of tasks from the specified file."""
-        
-        for index, task in enumerate(self.tasks, 1):
-            print(f"{index}. {task}")
+        if self.tasks:
+            for index, task in enumerate(self.tasks, 1):
+                print(f"{index}. {task}")
+        else:
+             print("There are no tasks.")
+
+        input("\nPress enter to return to menu selection. ")
 
     def load_task(self) -> None:
         """Loads the existing tasks if an external file is present."""
@@ -62,42 +66,58 @@ class TaskManager:
 
          user_task = Task(task_name, task_description, due_date, priority_level)
          self.tasks.append(user_task)
+         self.save_task()
 
     def update_task(self) -> None:
         """Updates the selected task from existing task list."""
 
         if self.tasks:
+            border = "=" * 40
+            update_task_title = "Update Task Components"
+            name_option = "1. Name"
+            description_option = "2. Description"
+            due_date_option = "3. Due Date"
+            priority_level_option = "4. Priority Level"
+            status_option = "5. Status"
+            menu_exit = "6. Exit"
+            for index, task in enumerate(self.tasks, 1):
+                print(f"{index}. {task}")
+            print(border)
             user_input = int(input("Enter the task " \
             "# you would like to update: "))
+            print(border)
             task_list = user_input - 1
             desired_task = self.tasks[task_list]
             print (desired_task)
             menu_selection = ""
             while menu_selection != 6:
-                menu_selection = int(input("Which field of the task "  
-                                   "did you want to update?\n1. Name\n"
-                                   "2. Description\n3. Due Date\n"
-                                   "4. Priority Level\n5. Status\n6. Exit"))
+                print(f"{border}\n{update_task_title:^40}\n\n{name_option}\n{description_option}\n{due_date_option}"
+                      f"\n{priority_level_option}\n{status_option}\n{menu_exit}\n")
+                menu_selection = int(input("Which field of the task did you want to update?: "))
                 if menu_selection == 1:
-                    updated_name = input("Enter the desired task name:")
+                    updated_name = input("\nEnter the desired task name: ")
                     desired_task.task_name = updated_name
                 elif menu_selection == 2:
-                    updated_description = input("Enter the new description for your " \
-                    "task:")
+                    updated_description = input("\nEnter the new description for your " \
+                    "task: ")
                     desired_task.task_description = updated_description
+                    print(f"{border}\nTask description has been updated.")
                 elif menu_selection == 3:
-                    updated_due_date = input("Enter the new due date for your task "
-                    "in the following format DD-MM-YYYY:")
+                    updated_due_date = input("\nEnter the new due date for your task "
+                    "in the following format DD-MM-YYYY: ")
                     desired_task.date_due = updated_due_date
+                    print(f"{border}\nTask due date has been updated.")
                 elif menu_selection == 4:
-                    updated_priority_level = input("Determine the new priority level" \
-                    "for your task:")
+                    updated_priority_level = input("\nDetermine the new priority level " \
+                    "for your task: ").upper()
                     desired_task.priority = updated_priority_level
+                    print(f"{border}\nTask priority level has been updated.")
                 elif menu_selection == 5:
-                    updated_status = input("Is your task completed? " \
-                    "Enter y/n:").lower()
+                    updated_status = input("\nIs your task completed? " \
+                    "Enter y/n: ").lower()
                     if updated_status == "y":
                         updated_status = True
+                        print(f"{border}\nTask has been marked as complete.")
                     else:
                         updated_status = False
                     desired_task.completed = updated_status
@@ -115,7 +135,7 @@ class TaskManager:
         if not self.tasks:
             print("There are no tasks to delete.")
         else:  
-            self.view_task()
+            self.tasks
             border = "=" * 40
             finished_tasks = "1. Completed Tasks"
             singular_task = "2. Single Task From List"
@@ -137,10 +157,13 @@ class TaskManager:
                     if not completed_task:
                          print("There are no completed tasks.")
                     else:
+                        print(border)
                         for number, i in enumerate(completed_task, 1):
                             print(f"{number}. {self.tasks[i]}")
+                        print(border)
                         selected_option = int(input("1. Delete all completed tasks"
-                                                    "\n2. Delete selected completed task\n3. Exit"))
+                                                    "\n2. Delete selected completed task\n3. Exit\n"
+                                                    "Select an action: "))
                         if selected_option == 1:
                             incomplete_task = []
                             for task in self.tasks:
@@ -149,7 +172,7 @@ class TaskManager:
                             confirmation_prompt = ""
                             while confirmation_prompt != "n" and confirmation_prompt != "y":
                                     confirmation_prompt = input("Are you sure you want to delete all " \
-                                    "completed tasks? \nEnter y/n:").lower()
+                                    "completed tasks? \nEnter y/n: ").lower()
                                     if confirmation_prompt not in ("y", "n"):
                                         print("Please enter confirmation.")
                             if confirmation_prompt == "y":
@@ -165,7 +188,7 @@ class TaskManager:
                             confirmation_prompt = ""
                             while confirmation_prompt != "n" and confirmation_prompt != "y":
                                     confirmation_prompt = input("Are you sure you want to delete this " \
-                                    "task?\nEnter y/n:").lower()
+                                    "task?\nEnter y/n: ").lower()
                                     if confirmation_prompt not in ("y", "n"):
                                         print("Please enter confirmation.")
                             if confirmation_prompt == "y":
@@ -180,12 +203,12 @@ class TaskManager:
                     for index, task in enumerate(self.tasks, 1):
                         print(f"{index}. {task}")
                     chosen_task = int(input("Enter the corresponding # of the task you would" \
-                    "like to delete:"))
+                    "like to delete: "))
                     task_index = chosen_task - 1
                     confirmation_prompt = ""
                     while confirmation_prompt != "n" and confirmation_prompt != "y":
                         confirmation_prompt = input("Are you sure you want to delete selected task? " \
-                        "Enter y/n:").lower()
+                        "Enter y/n: ").lower()
                         if confirmation_prompt not in ("y", "n"):
                                     print("Please enter confirmation.")
                     if confirmation_prompt == "y":
@@ -198,7 +221,7 @@ class TaskManager:
                 elif category_selection == 3:
                     user_choice = ""
                     while user_choice != "n" and user_choice != "y":
-                        user_choice = input("Are you sure you want to delete all tasks? Enter y/n:").lower()
+                        user_choice = input("Are you sure you want to delete all tasks? Enter y/n: ").lower()
                         if user_choice not in ("y", "n"):
                                     print("Please enter confirmation.")
                     if user_choice == "y":
@@ -225,7 +248,7 @@ class TaskManager:
          exit_system = "5. Exit"
 
          print(f"{border}\n{start_message:^40}\n\n{view_task}\n{add_task}\n"
-               f"{update_task}\n{delete_task}\n{exit_system}\n{border}")
+               f"{update_task}\n{delete_task}\n{exit_system}\n\n{border}")
          
          return input("Select an option (1-5): ")
          

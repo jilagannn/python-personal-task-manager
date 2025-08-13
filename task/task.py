@@ -77,8 +77,8 @@ class Task:
         Returns:
             Task: A task object created from the dictionary.
         """
-        return cls(task_name=task_dictionary.get("task_name", "Untitled"),
-                   task_description=task_dictionary.get("task_description", ""),
-                   date_due=task_dictionary.get("date_due", ""),
-                   priority=task_dictionary.get("priority", "Medium"),
-                   completed=task_dictionary.get("completed", False))
+        return cls(task_name=task_dictionary.get("Name", "Untitled"),
+                   task_description=task_dictionary.get("Description", ""),
+                   date_due=task_dictionary.get("Due Date", ""),
+                   priority=task_dictionary.get("Priority Level", "Medium"),
+                   completed=task_dictionary.get("Status", False))
