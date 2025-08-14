@@ -10,3 +10,6 @@ from manager.task_manager import TaskManager
 
 __author__ = "Jheyrus Ilagan"
 __version__ = "10.14.2025"
+
+class TestTaskManager(TestCase):
+    """Defines the unit tests for Task Manager class."""
