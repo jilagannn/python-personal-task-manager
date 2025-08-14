@@ -184,7 +184,7 @@ class TaskManager:
                             else:
                                 print("Returning to selection.")
                         elif selected_option == 2:
-                            selected_task = int(input("Select which completed task to delete:"))
+                            selected_task = int(input("Select which completed task to delete: "))
                             confirmation_prompt = ""
                             while confirmation_prompt != "n" and confirmation_prompt != "y":
                                     confirmation_prompt = input("Are you sure you want to delete this " \
@@ -200,37 +200,43 @@ class TaskManager:
                             else:
                                 print("Returning to selection.")
                 elif category_selection == 2:
-                    for index, task in enumerate(self.tasks, 1):
-                        print(f"{index}. {task}")
-                    chosen_task = int(input("Enter the corresponding # of the task you would" \
-                    "like to delete: "))
-                    task_index = chosen_task - 1
-                    confirmation_prompt = ""
-                    while confirmation_prompt != "n" and confirmation_prompt != "y":
-                        confirmation_prompt = input("Are you sure you want to delete selected task? " \
-                        "Enter y/n: ").lower()
-                        if confirmation_prompt not in ("y", "n"):
-                                    print("Please enter confirmation.")
-                    if confirmation_prompt == "y":
-                        print("Deleting task.")
-                        self.tasks.pop(task_index)
-                        print("Task has been successfully deleted.")
-                        self.save_task()
+                    if not self.tasks:
+                         print("There are no tasks available.")
                     else:
-                        print("Returning to selection.")
+                        for index, task in enumerate(self.tasks, 1):
+                            print(f"{index}. {task}")
+                        chosen_task = int(input("Enter the corresponding # of the task you would " \
+                        "like to delete: "))
+                        task_index = chosen_task - 1
+                        confirmation_prompt = ""
+                        while confirmation_prompt != "n" and confirmation_prompt != "y":
+                            confirmation_prompt = input("Are you sure you want to delete selected task? " \
+                            "Enter y/n: ").lower()
+                            if confirmation_prompt not in ("y", "n"):
+                                        print("Please enter confirmation.")
+                        if confirmation_prompt == "y":
+                            print("Deleting task.")
+                            self.tasks.pop(task_index)
+                            print("Task has been successfully deleted.")
+                            self.save_task()
+                        else:
+                            print("Returning to selection.")
                 elif category_selection == 3:
-                    user_choice = ""
-                    while user_choice != "n" and user_choice != "y":
-                        user_choice = input("Are you sure you want to delete all tasks? Enter y/n: ").lower()
-                        if user_choice not in ("y", "n"):
-                                    print("Please enter confirmation.")
-                    if user_choice == "y":
-                        self.tasks.clear()
-                        print("Deleting all tasks.")
-                        self.save_task()
-                        print("Tasks have been successfully deleted.")
+                    if not self.tasks:
+                         print("There are no tasks available.")
                     else:
-                         print("Returning to selection.")
+                        user_choice = ""
+                        while user_choice != "n" and user_choice != "y":
+                            user_choice = input("Are you sure you want to delete all tasks? Enter y/n: ").lower()
+                            if user_choice not in ("y", "n"):
+                                        print("Please enter confirmation.")
+                        if user_choice == "y":
+                            self.tasks.clear()
+                            print("Deleting all tasks.")
+                            self.save_task()
+                            print("Tasks have been successfully deleted.")
+                        else:
+                            print("Returning to selection.")
                 else:
                     self.save_task()
                     print("Exiting task delete menu.")
