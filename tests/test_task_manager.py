@@ -3,6 +3,8 @@
 Test Cases:
     view_task()
     - Verifies if the task list is empty.
+    - Verifies if task list contains the correct number of task entries.
+    - Verifies if task is being outputted correctly.
 """
 
 import unittest
@@ -29,6 +31,7 @@ class TestTaskManager(TestCase):
             >>>task_manager = TaskManager(self.tasks)
         """
 
+        self.test_task_list = 'test-task-list.json'
         self.test_tasks = [
             {
                 "Name": "Test Task",
@@ -66,6 +69,8 @@ class TestTaskManager(TestCase):
                 "Status": False
             },
         ]
+        with open(self.test_task_list, "w") as output_file:
+            json.dump(self.test_tasks, output_file, indent=2)
 
         self.empty_task_list = "empty-test-task-list.json"
         with open(self.empty_task_list, "w") as file:
@@ -89,3 +94,40 @@ class TestTaskManager(TestCase):
         expected_message = "=" * 40 + "\nThere are no tasks.\n"
         self.assertEqual(expected_view_task_return, actual_return)
         self.assertEqual(expected_message, actual_message)
+
+    def test_view_task_if_task_list_outputs_correct_task(self):
+        # Arrange
+        task_manager = TaskManager(self.test_task_list)
+        user_input = ""
+
+        # Act
+        with patch("builtins.input", return_value=user_input), \
+        patch('sys.stdout', new=StringIO()) as fake_out:
+            actual_return = task_manager.view_task()
+            actual_message = fake_out.getvalue()
+
+        # Assert
+        expected_task_return = None
+        expected_message = "1. Incomplete Test Task (LOW) - Due: 01-24-2026"
+        self.assertEqual(expected_task_return, actual_return)
+        self.assertIn(expected_message, actual_message)
+
+    def test_view_task_if_task_list_contains_correct_number_of_tasks(self):
+        # Arrange
+        task_manager = TaskManager(self.test_task_list)
+        user_input = ""
+        actual_count = 0
+
+        # Act
+        with patch("builtins.input", return_value=user_input), \
+        patch('sys.stdout', new=StringIO()) as fake_out:
+            actual_return = task_manager.view_task()
+            mocked_output = fake_out.getvalue()
+        for task_number in range(1, 6):
+            actual_count += mocked_output.count(f"\n{task_number}. ")
+
+        # Assert
+        expected_task_return = None
+        expected_message = 5
+        self.assertEqual(expected_task_return, actual_return)
+        self.assertEqual(expected_message, actual_count)

@@ -24,16 +24,15 @@ class TaskManager:
 
     def view_task(self) -> None:
         """Views the list of tasks from the specified file."""
+        border = "=" * 40
         if self.tasks:
             task_list_title = "My Tasks"
-            print("=" * 40)
-            print(f"{task_list_title:^40}")
-            print("=" * 40)
+            print(f"{border}\n{task_list_title:^40}\n{border}")
             for index, task in enumerate(self.tasks, 1):
                 print(f"\n{index}. {task}\n")
-            print("=" * 40)
+            print(border)
         else:
-             print("=" * 40 + "\nThere are no tasks.")
+             print(f"{border}\nThere are no tasks.")
 
         input("\nPress enter to return to menu selection. ")
 
