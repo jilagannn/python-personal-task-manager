@@ -9,6 +9,7 @@ Test Cases:
     load_task()
     - Task list is empty if non existent file is loaded.
     - Verifies that the correct number of Task objects are loaded.
+    - Verifies data is properly converted into Task objects.
 """
 
 import unittest
@@ -163,3 +164,29 @@ class TestTaskManager(TestCase):
         # Assert
         expected_tasks = 5
         self.assertEqual(expected_tasks, actual_tasks)
+
+    def test_load_task_loads_correct_task_components_if_external_file_exists(self):
+        # Arrange
+        file_name = "test-task-list.json"
+
+        # Act
+        task_manager = TaskManager(file_name)
+        test_task = task_manager.tasks[0]
+        actual_task_name = test_task.task_name
+        actual_task_description = test_task.task_description
+        actual_task_due_date = test_task.date_due
+        actual_task_priority = test_task.priority
+        actual_task_status = test_task.completed
+        
+        # Assert
+        expected_task_name = "Test Task"
+        expected_task_description = "Test task object"
+        expected_task_due_date = "01-24-2026"
+        expected_task_priority = "Low"
+        expected_task_status = False
+        self.assertEqual(expected_task_name, actual_task_name)
+        self.assertEqual(expected_task_description, actual_task_description)
+        self.assertEqual(expected_task_due_date, actual_task_due_date)
+        self.assertEqual(expected_task_priority, actual_task_priority)
+        self.assertEqual(expected_task_status, actual_task_status)
+        
