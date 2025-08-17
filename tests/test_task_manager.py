@@ -5,10 +5,14 @@ Test Cases:
     - Verifies if the task list is empty.
     - Verifies if task list contains the correct number of task entries.
     - Verifies if task is being outputted correctly.
+
+    load_task()
+    - Task list is empty if non existent file is loaded.
 """
 
 import unittest
 import json
+import os
 from unittest.mock import patch
 from io import StringIO
 from unittest import TestCase
@@ -31,6 +35,7 @@ class TestTaskManager(TestCase):
             >>>task_manager = TaskManager(self.tasks)
         """
 
+        self.tasks_test = []
         self.test_task_list = 'test-task-list.json'
         self.test_tasks = [
             {
@@ -131,3 +136,17 @@ class TestTaskManager(TestCase):
         expected_message = 5
         self.assertEqual(expected_task_return, actual_return)
         self.assertEqual(expected_message, actual_count)
+
+    ### load_task()
+
+    def test_load_task_empty_list_if_no_external_file_for_list(self):
+        # Arrange
+        file_name = "fake-test-task-list-.json"
+        
+        # Act
+        task_manager = TaskManager(file_name)
+        actual_action = task_manager.tasks
+
+        # Assert
+        expected_action = []
+        self.assertEqual(expected_action, actual_action)
