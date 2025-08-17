@@ -8,6 +8,7 @@ Test Cases:
 
     load_task()
     - Task list is empty if non existent file is loaded.
+    - Verifies that the correct number of Task objects are loaded.
 """
 
 import unittest
@@ -42,35 +43,35 @@ class TestTaskManager(TestCase):
                 "Name": "Test Task",
                 "Description": "Test task object",
                 "Due Date": "01-24-2026",
-                "Priority Level": "LOW",
+                "Priority Level": "Low",
                 "Status": False
             },
             {
-                "Name": "",
-                "Description": "",
-                "Due Date": "",
-                "Priority Level": "",
+                "Name": "Test Task 2",
+                "Description": "Second test task.",
+                "Due Date": "02-24-2026",
+                "Priority Level": "Low",
                 "Status": False
             },
             {
-                "Name": "",
-                "Description": "",
-                "Due Date": "",
-                "Priority Level": "",
+                "Name": "Mow Lawn",
+                "Description": "Chore for the weekend.",
+                "Due Date": "10-24-2025",
+                "Priority Level": "Medium",
                 "Status": False
             },
             {
-                "Name": "",
-                "Description": "",
-                "Due Date": "",
-                "Priority Level": "",
+                "Name": "Trade",
+                "Description": "Crypto trade quota.",
+                "Due Date": "12-30-2025",
+                "Priority Level": "High",
                 "Status": False
             },
             {
-                "Name": "",
-                "Description": "",
-                "Due Date": "",
-                "Priority Level": "",
+                "Name": "Test Task 3",
+                "Description": "Third test task.",
+                "Due Date": "03-20-2026",
+                "Priority Level": "Low",
                 "Status": False
             },
         ]
@@ -113,7 +114,7 @@ class TestTaskManager(TestCase):
 
         # Assert
         expected_task_return = None
-        expected_message = "1. Incomplete Test Task (LOW) - Due: 01-24-2026"
+        expected_message = "1. Incomplete Test Task (Low) - Due: 01-24-2026"
         self.assertEqual(expected_task_return, actual_return)
         self.assertIn(expected_message, actual_message)
 
@@ -150,3 +151,15 @@ class TestTaskManager(TestCase):
         # Assert
         expected_action = []
         self.assertEqual(expected_action, actual_action)
+
+    def test_load_task_loads_correct_number_of_tasks_if_external_file_exists(self):
+        # Arrange
+        file_name = "test-task-list.json"
+
+        # Act
+        task_manager = TaskManager(file_name)
+        actual_tasks = len(task_manager.tasks)
+        
+        # Assert
+        expected_tasks = 5
+        self.assertEqual(expected_tasks, actual_tasks)
