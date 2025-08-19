@@ -10,6 +10,10 @@ Test Cases:
     - Task list is empty if non existent file is loaded.
     - Verifies that the correct number of Task objects are loaded.
     - Verifies data is properly converted into Task objects.
+
+    save_task()
+    - Task list is saved properly even if file is empty.
+    - Task list properly saves tasks onto file.
 """
 
 import unittest
@@ -83,8 +87,8 @@ class TestTaskManager(TestCase):
         with open(self.empty_task_list, "w") as file:
             json.dump([], file, indent=2)
         
-        self.empty_task_list_save = "empty-test-task-list_saved.json"
-        with open(self.empty_task_list, "w") as file:
+        self.empty_task_list_save = "empty-test-task-list_saved.json"   
+        with open(self.empty_task_list_save, "w") as file:
             json.dump([], file, indent=2)
 
     ### view_task()
@@ -159,10 +163,9 @@ class TestTaskManager(TestCase):
 
     def test_load_task_loads_correct_number_of_tasks_if_external_file_exists(self):
         # Arrange
-        file_name = "test-task-list.json"
+        task_manager = TaskManager(self.test_task_list)
 
         # Act
-        task_manager = TaskManager(file_name)
         actual_tasks = len(task_manager.tasks)
         
         # Assert
@@ -171,10 +174,9 @@ class TestTaskManager(TestCase):
 
     def test_load_task_loads_correct_task_components_if_external_file_exists(self):
         # Arrange
-        file_name = "test-task-list.json"
+        task_manager = TaskManager(self.test_task_list)
 
         # Act
-        task_manager = TaskManager(file_name)
         test_task = task_manager.tasks[0]
         actual_task_name = test_task.task_name
         actual_task_description = test_task.task_description
@@ -210,4 +212,19 @@ class TestTaskManager(TestCase):
         expected_contents = []
         self.assertEqual(expected_contents, actual_contents)
         self.assertTrue(actual_file)
-        
+
+    def test_save_task_saves_task_objects_onto_list_correctly(self):
+        # Arrange
+        task_manager = TaskManager(self.test_task_list)
+
+        # Act
+        task_manager.filename = "test-task-list-saved.json"
+        task_manager.save_task()
+        actual_file = os.path.exists(task_manager.filename)
+        with open(task_manager.filename, "r") as file:
+            actual_contents = json.load(file)
+
+        # Assert
+        expected_contents = self.test_tasks
+        self.assertEqual(expected_contents, actual_contents)
+        self.assertTrue(actual_file)
