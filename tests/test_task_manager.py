@@ -82,6 +82,10 @@ class TestTaskManager(TestCase):
         self.empty_task_list = "empty-test-task-list.json"
         with open(self.empty_task_list, "w") as file:
             json.dump([], file, indent=2)
+        
+        self.empty_task_list_save = "empty-test-task-list_saved.json"
+        with open(self.empty_task_list, "w") as file:
+            json.dump([], file, indent=2)
 
     ### view_task()
 
@@ -189,4 +193,21 @@ class TestTaskManager(TestCase):
         self.assertEqual(expected_task_due_date, actual_task_due_date)
         self.assertEqual(expected_task_priority, actual_task_priority)
         self.assertEqual(expected_task_status, actual_task_status)
+
+    ### save_task()
+
+    def test_save_task_saves_empty_task_list_correctly(self):
+        # Arrange
+        task_manager = TaskManager(self.empty_task_list_save)
+
+        # Act
+        task_manager.save_task()
+        actual_file = os.path.exists(self.empty_task_list_save)
+        with open(self.empty_task_list_save, "r") as file:
+            actual_contents = json.load(file)
+
+        # Assert
+        expected_contents = []
+        self.assertEqual(expected_contents, actual_contents)
+        self.assertTrue(actual_file)
         
