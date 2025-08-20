@@ -228,3 +228,31 @@ class TestTaskManager(TestCase):
         expected_contents = self.test_tasks
         self.assertEqual(expected_contents, actual_contents)
         self.assertTrue(actual_file)
+
+    def test_save_task_converts_objects_to_dict_correctly(self):
+        # Arrange
+        task_manager = TaskManager(self.test_task_list)
+
+        # Act
+        task_manager.filename = "test-task-list-saved.json"
+        task_manager.save_task()
+        with open(task_manager.filename, "r") as file:
+            actual_contents = json.load(file)
+        actual_task_name = actual_contents[3]["Name"]
+        actual_task_description = actual_contents[3]["Description"]
+        actual_task_date_due = actual_contents[3]["Due Date"]
+        actual_task_priority_level = actual_contents[3]["Priority Level"]
+        actual_task_status = actual_contents[3]["Status"]
+
+        # Assert
+        expected_task_name = "Trade"
+        expected_task_description = "Crypto trade quota."
+        expected_task_date_due = "12-30-2025"
+        expected_task_priority_level = "High"
+        expected_task_status = False
+        self.assertEqual(expected_task_name, actual_task_name)
+        self.assertEqual(expected_task_description, actual_task_description)
+        self.assertEqual(expected_task_date_due, actual_task_date_due)
+        self.assertEqual(expected_task_priority_level, actual_task_priority_level)
+        self.assertEqual(expected_task_status, actual_task_status)
+        
