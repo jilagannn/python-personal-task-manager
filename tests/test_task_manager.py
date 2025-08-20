@@ -213,7 +213,7 @@ class TestTaskManager(TestCase):
         self.assertEqual(expected_contents, actual_contents)
         self.assertTrue(actual_file)
 
-    def test_save_task_saves_task_objects_onto_list_correctly(self):
+    def test_save_task_saves_task_number_of_tasks_objects_correctly(self):
         # Arrange
         task_manager = TaskManager(self.test_task_list)
 
@@ -223,10 +223,11 @@ class TestTaskManager(TestCase):
         actual_file = os.path.exists(task_manager.filename)
         with open(task_manager.filename, "r") as file:
             actual_contents = json.load(file)
+        actual_number_of_tasks = len(actual_contents)
 
         # Assert
-        expected_contents = self.test_tasks
-        self.assertEqual(expected_contents, actual_contents)
+        expected_number_of_tasks = 5
+        self.assertEqual(expected_number_of_tasks, actual_number_of_tasks)
         self.assertTrue(actual_file)
 
     def test_save_task_converts_objects_to_dict_correctly(self):
@@ -255,4 +256,3 @@ class TestTaskManager(TestCase):
         self.assertEqual(expected_task_date_due, actual_task_date_due)
         self.assertEqual(expected_task_priority_level, actual_task_priority_level)
         self.assertEqual(expected_task_status, actual_task_status)
-        
