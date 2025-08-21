@@ -6,8 +6,8 @@ __version__ = "05.19.2025"
 class Task:
     """Class representing a Task in the personal task manager."""
     
-    def __init__(self, task_name, task_description="", date_due=None, priority="Medium", 
-                 completed=False):
+    def __init__(self, task_name="Test Task", task_description="", date_due=None, 
+                 priority="Medium", completed=False):
         """Initializes a new task instance.
         
         Args:
@@ -22,10 +22,10 @@ class Task:
         The default value is set to "False" progress.
         """
 
-        self.task_name = task_name
+        self.task_name = task_name.strip() or "Test Task"
         self.task_description = task_description
         self.date_due = date_due
-        self.priority = priority
+        self.priority = priority.strip() or "Medium"
         self.completed = completed
     
     def __str__(self) -> str:
