@@ -13,13 +13,18 @@ Test Cases:
 
     save_task()
     - Task list is saved properly even if file is empty.
-    - Task list properly saves tasks onto file.
+    - Task list properly saves correct quantity of tasks onto file.
+    - Saved tasks contain correct data after saving.
+
+    add_task()
+    - Tasks are successfully added as task objects.
 """
 
 import unittest
 import json
 import os
 from unittest.mock import patch
+from unittest.mock import Mock
 from io import StringIO
 from unittest import TestCase
 from task.task import Task
@@ -256,3 +261,26 @@ class TestTaskManager(TestCase):
         self.assertEqual(expected_task_date_due, actual_task_date_due)
         self.assertEqual(expected_task_priority_level, actual_task_priority_level)
         self.assertEqual(expected_task_status, actual_task_status)
+
+    ### add_task()
+    def test_add_task_successfully_adds_task_object(self):
+        # Arrange
+        file_name = "add-task-test-list.json"
+        if os.path.exists(file_name):
+            os.remove(file_name)
+        task_manager = TaskManager(file_name)
+
+
+        # Act
+        task_components = ["Test Task 1", "Test task to be added.", "08-30-2025", "Medium"]
+
+        # Capturing the console printed message to keep test clean.
+        with patch("builtins.input", side_effect=task_components), \
+        patch("sys.stdout", new=StringIO()): 
+            task_manager.add_task() 
+        actual_tasks = task_manager.tasks
+        actual_number_of_tasks = len(actual_tasks)
+
+        # Assert
+        expected_number_of_tasks = 1
+        self.assertEqual(expected_number_of_tasks, actual_number_of_tasks)
