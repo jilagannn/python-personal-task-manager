@@ -20,6 +20,7 @@ Test Cases:
     - Verifies the correct number of task quantity added as task objects.
     - Tasks are successfully added when empty values are given.
     - Tasks are successfully added when regular values are given.
+    - Task is saved after successfully adding a task.
 """
 
 import unittest
@@ -355,4 +356,26 @@ class TestTaskManager(TestCase):
         self.assertEqual(expected_task_due_date, actual_task_due_date)
         self.assertEqual(expected_task_priority,actual_task_priority)
         self.assertEqual(expected_task_status, actual_task_status)
+        
+    def test_add_task_successfully_saves_task_after_adding_task(self):
+        # Arrange
+        file_name = "add-task-test-list.json"
+        if os.path.exists(file_name):
+            os.remove(file_name)
+        task_manager = TaskManager(file_name)
+        task_components = ["Test Task 1", "Test task to be added.", "08-30-2025", "Medium"]
+
+        # Act
+
+        # Capturing the console printed message to keep test clean.
+        with patch("builtins.input", side_effect=task_components), \
+        patch("sys.stdout", new=StringIO()), patch.object(task_manager, "save_task") \
+        as mock_save: 
+            task_manager.add_task() 
+        actual_number_of_tasks = len(task_manager.tasks)
+
+        # Assert
+        expected_number_of_tasks = 1
+        mock_save.assert_called_once()
+        self.assertEqual(expected_number_of_tasks, actual_number_of_tasks)
         
