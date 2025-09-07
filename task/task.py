@@ -25,7 +25,7 @@ class Task:
         self.task_name = task_name.strip() or "Test Task"
         self.task_description = task_description
         self.date_due = date_due
-        self.priority = priority.strip() or "Medium"
+        self.priority = priority.strip().upper() or "MEDIUM"
         self.completed = completed
     
     def __str__(self) -> str:
