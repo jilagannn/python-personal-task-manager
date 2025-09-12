@@ -21,7 +21,13 @@ Test Cases:
     - Tasks are successfully added when empty values are given.
     - Tasks are successfully added when regular values are given.
     - Task is saved after successfully adding a task.
+
+    update_task()
+    - 
 """
+
+__author__ = "Jheyrus Ilagan"
+__version__ = "10.14.2025"
 
 import unittest
 import json
@@ -33,20 +39,19 @@ from unittest import TestCase
 from task.task import Task
 from manager.task_manager import TaskManager
 
-__author__ = "Jheyrus Ilagan"
-__version__ = "10.14.2025"
-
 class TestTaskManager(TestCase):
     """Defines the unit tests for Task Manager class."""
 
     def setUp(self):
-        """This function is called before executing a unit test function.
-        
-        The following class objects have been provided to reduce the amount of code needed
-        when creating Task Manager class objects in the following tests.
-        
+        """This function is called before executing a unit test 
+        function.
+
+        The following class objects have been provided to reduce the 
+        amount of code needed when creating Task Manager class objects 
+        in the following tests.
+
         Example:
-            >>>task_manager = TaskManager(self.tasks)
+            >>> task_manager = TaskManager(self.tasks)
         """
 
         self.tasks_test = []
@@ -56,35 +61,35 @@ class TestTaskManager(TestCase):
                 "Name": "Test Task",
                 "Description": "Test task object",
                 "Due Date": "01-24-2026",
-                "Priority Level": "Low",
+                "Priority Level": "LOW",
                 "Status": False
             },
             {
                 "Name": "Test Task 2",
                 "Description": "Second test task.",
                 "Due Date": "02-24-2026",
-                "Priority Level": "Low",
+                "Priority Level": "LOW",
                 "Status": False
             },
             {
                 "Name": "Mow Lawn",
                 "Description": "Chore for the weekend.",
                 "Due Date": "10-24-2025",
-                "Priority Level": "Medium",
+                "Priority Level": "MEDIUM",
                 "Status": False
             },
             {
                 "Name": "Trade",
                 "Description": "Crypto trade quota.",
                 "Due Date": "12-30-2025",
-                "Priority Level": "High",
+                "Priority Level": "HIGH",
                 "Status": False
             },
             {
                 "Name": "Test Task 3",
                 "Description": "Third test task.",
                 "Due Date": "03-20-2026",
-                "Priority Level": "Low",
+                "Priority Level": "LOW",
                 "Status": False
             },
         ]
@@ -114,7 +119,7 @@ class TestTaskManager(TestCase):
 
         # Assert
         expected_view_task_return = None
-        expected_message = "=" * 40 + "\nThere are no tasks.\n"
+        expected_message = "=" * 80 + "\nThere are no tasks.\n"
         self.assertEqual(expected_view_task_return, actual_return)
         self.assertEqual(expected_message, actual_message)
 
@@ -131,7 +136,7 @@ class TestTaskManager(TestCase):
 
         # Assert
         expected_task_return = None
-        expected_message = "1. Incomplete Test Task (Low) - Due: 01-24-2026"
+        expected_message = "1. Incomplete Test Task (LOW) - Due: 01-24-2026"
         self.assertEqual(expected_task_return, actual_return)
         self.assertIn(expected_message, actual_message)
 
@@ -175,7 +180,7 @@ class TestTaskManager(TestCase):
 
         # Act
         actual_tasks = len(task_manager.tasks)
-        
+
         # Assert
         expected_tasks = 5
         self.assertEqual(expected_tasks, actual_tasks)
@@ -196,7 +201,7 @@ class TestTaskManager(TestCase):
         expected_task_name = "Test Task"
         expected_task_description = "Test task object"
         expected_task_due_date = "01-24-2026"
-        expected_task_priority = "Low"
+        expected_task_priority = "LOW"
         expected_task_status = False
         self.assertEqual(expected_task_name, actual_task_name)
         self.assertEqual(expected_task_description, actual_task_description)
@@ -257,7 +262,7 @@ class TestTaskManager(TestCase):
         expected_task_name = "Trade"
         expected_task_description = "Crypto trade quota."
         expected_task_date_due = "12-30-2025"
-        expected_task_priority_level = "High"
+        expected_task_priority_level = "HIGH"
         expected_task_status = False
         self.assertEqual(expected_task_name, actual_task_name)
         self.assertEqual(expected_task_description, actual_task_description)
@@ -274,7 +279,8 @@ class TestTaskManager(TestCase):
         task_manager = TaskManager(file_name)
 
         # Act
-        task_components = ["Test Task 1", "Test task to be added.", "08-30-2025", "Medium"]
+        task_components = ["Test Task 1", "Test task to be added.", 
+                           "08-30-2025", "Medium"]
 
         # Capturing the console printed message to keep test clean.
         with patch("builtins.input", side_effect=task_components), \
@@ -295,7 +301,8 @@ class TestTaskManager(TestCase):
         task_manager = TaskManager(file_name)
 
         # Act
-        task_components = ["Test Task 1", "Test task to be added.", "08-30-2025", "Medium"]
+        task_components = ["Test Task 1", "Test task to be added.", 
+                           "08-30-2025", "Medium"]
 
         # Capturing the console printed message to keep test clean.
         with patch("builtins.input", side_effect=task_components), \
@@ -312,7 +319,7 @@ class TestTaskManager(TestCase):
         expected_task_name = "Test Task 1"
         expected_task_description = "Test task to be added."
         expected_task_due_date = "08-30-2025"
-        expected_task_priority = "Medium"
+        expected_task_priority = "MEDIUM"
         expected_task_status = False
         expected_number_of_tasks = 1
         self.assertEqual(expected_number_of_tasks, actual_number_of_tasks)
@@ -321,7 +328,7 @@ class TestTaskManager(TestCase):
         self.assertEqual(expected_task_due_date, actual_task_due_date)
         self.assertEqual(expected_task_priority,actual_task_priority)
         self.assertEqual(expected_task_status, actual_task_status)
-    
+
     def test_add_task_successfully_adds_task_object_with_empty_strings(self):
         # Arrange
         file_name = "add-task-test-list-2.json"
@@ -347,7 +354,7 @@ class TestTaskManager(TestCase):
         expected_task_name = "Test Task"
         expected_task_description = ""
         expected_task_due_date = ""
-        expected_task_priority = "Medium"
+        expected_task_priority = "MEDIUM"
         expected_task_status = False
         expected_number_of_tasks = 1
         self.assertEqual(expected_number_of_tasks, actual_number_of_tasks)
@@ -356,21 +363,22 @@ class TestTaskManager(TestCase):
         self.assertEqual(expected_task_due_date, actual_task_due_date)
         self.assertEqual(expected_task_priority,actual_task_priority)
         self.assertEqual(expected_task_status, actual_task_status)
-        
+
     def test_add_task_successfully_saves_task_after_adding_task(self):
         # Arrange
         file_name = "add-task-test-list.json"
         if os.path.exists(file_name):
             os.remove(file_name)
         task_manager = TaskManager(file_name)
-        task_components = ["Test Task 1", "Test task to be added.", "08-30-2025", "Medium"]
+        task_components = ["Test Task 1", "Test task to be added.", 
+                           "08-30-2025", "Medium"]
 
         # Act
 
         # Capturing the console printed message to keep test clean.
         with patch("builtins.input", side_effect=task_components), \
-        patch("sys.stdout", new=StringIO()), patch.object(task_manager, "save_task") \
-        as mock_save: 
+        patch("sys.stdout", new=StringIO()), patch.object(task_manager, 
+        "save_task") as mock_save: 
             task_manager.add_task() 
         actual_number_of_tasks = len(task_manager.tasks)
 
@@ -378,4 +386,17 @@ class TestTaskManager(TestCase):
         expected_number_of_tasks = 1
         mock_save.assert_called_once()
         self.assertEqual(expected_number_of_tasks, actual_number_of_tasks)
-        
+
+    ### update_task()
+
+    ### update_task_field()
+
+    ### select_task_to_update()
+
+    ### display_update_menu()
+
+    ### update_single_task_field()
+
+
+if __name__ == "__main__":
+    unittest.main()
