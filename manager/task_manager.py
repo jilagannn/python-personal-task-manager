@@ -16,7 +16,7 @@ class TaskManager:
 
         Args:
             filename (str): The filename that the tasks will be written
-            out to. Default string value will be "task-list.json
+                out to. Default string value will be "task-list.json
         """
 
         self.filename = filename
@@ -242,11 +242,11 @@ class TaskManager:
 
         Args:
             message_prompt (str): The message to display when prompting 
-            the user.
+                the user.
 
         Returns:
             bool: True if user confirms with "y", False if user confirms
-            with "n".
+                with "n".
         """
 
         confirmation_prompt = ""

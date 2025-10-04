@@ -6,20 +6,23 @@ __version__ = "05.19.2025"
 class Task:
     """Class representing a Task in the personal task manager."""
 
-    def __init__(self, task_name="Test Task", task_description="", date_due=None, 
-                 priority="Medium", completed=False):
+    def __init__(self, task_name: str="Test Task", task_description: str="", 
+                 date_due: str=None, priority: str="Medium", 
+                 completed: bool=False):
         """Initializes a new task instance.
 
         Args:
             task_name (str): The name of specified the task.
-            task_description (str, optional): The description of the specified 
-        task. The default value is set to blank.
-            date_due (str, optional): The deadline date for the specified task. 
-        The default value is set
-            priority (str, optional): The priority level of the specified task. 
-        The default value is set to "Medium" priority.
-            completed (bool, optional): The overall progress of the specified task. 
-        The default value is set to "False" progress.
+            task_description (str, optional): The description of the
+                specified task. The default value is set to blank.
+            date_due (str, optional): The deadline date for the
+                specified task. The default value is set
+            priority (str, optional): The priority level of the
+                specified task. The default value is set to "Medium"
+                priority.
+            completed (bool, optional): The overall progress of the
+                specified task. The default value is set to "False"
+                progress.
         """
 
         self.task_name = task_name.strip() or "Test Task"
@@ -67,7 +70,7 @@ class Task:
         }
 
     @classmethod
-    def dict_to_task(cls, task_dictionary):
+    def dict_to_task(cls, task_dictionary: dict) -> "Task":
         """Utilizes a dictionary from a file and creates a task object.
 
         Args:

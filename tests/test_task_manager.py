@@ -104,6 +104,19 @@ class TestTaskManager(TestCase):
         with open(self.empty_task_list_save, "w") as file:
             json.dump([], file, indent=2)
 
+    def tearDown(self):
+        """This method removes existing test files after each test.
+        This method is invoked before all tests.
+        """
+
+        test_files = [self.empty_task_list, self.empty_task_list_save,
+                      self.test_task_list, "add-task-test-list-2.json",
+                      "test-task-list-saved.json"]
+        
+        for i in test_files:
+            if os.path.exists(i):
+                os.remove(i)
+
     ### view_task()
 
     def test_view_task_if_task_list_empty(self):
